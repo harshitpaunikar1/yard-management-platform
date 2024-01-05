@@ -32,3 +32,7 @@
 
 - Task summary: Circled back: updated the requirements file — had missed one indirect dependency.
 - Deliverable: Minor but worth doing.
+## 2024-01-05 - Day 5: Data model
+
+- Task summary: After stepping away for a bit, came back and pushed a config tweak after noticing the wrong default param was being used.
+- Deliverable: Minor but worth doing.
