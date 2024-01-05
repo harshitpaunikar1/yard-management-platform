@@ -28,3 +28,7 @@
 
 - Task summary: Got stuck mid-afternoon and had to regroup — wrapped a repeated block in a helper function since it showed up three times.
 - Deliverable: Minor but worth doing.
+## 2024-01-05 - Day 5: Data model
+
+- Task summary: Circled back: updated the requirements file — had missed one indirect dependency.
+- Deliverable: Minor but worth doing.
