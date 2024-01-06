@@ -36,3 +36,7 @@
 
 - Task summary: After stepping away for a bit, came back and pushed a config tweak after noticing the wrong default param was being used.
 - Deliverable: Minor but worth doing.
+## 2024-01-06 - Day 4: User stories
+
+- Task summary: Checked in on the project over the weekend. Ran a few cells, noticed the output was slightly off. Fixed a small rounding issue and re-saved.
+- Deliverable: Minor but worth doing.
