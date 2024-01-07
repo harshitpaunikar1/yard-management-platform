@@ -40,3 +40,7 @@
 
 - Task summary: Checked in on the project over the weekend. Ran a few cells, noticed the output was slightly off. Fixed a small rounding issue and re-saved.
 - Deliverable: Minor but worth doing.
+## 2024-01-07 - Day 5: Data model
+
+- Task summary: Half-day Saturday session. Decided to finish the README section I skipped on Friday — cleaner now.
+- Deliverable: Wrapped it up properly this time.
