@@ -44,3 +44,7 @@
 
 - Task summary: Half-day Saturday session. Decided to finish the README section I skipped on Friday — cleaner now.
 - Deliverable: Wrapped it up properly this time.
+## 2024-01-08 - Day 6: Architecture
+
+- Task summary: This was the middle stretch where the project started feeling real. I kept going and tried to sketch the system architecture, major screens, and integration points, then cleaned up whatever looked confusing or weak from the earlier days. Once the base made some sense, I could finally move a bit faster and stop second guessing every tiny decision. A lot of the work here was really about workflow thinking, not just screens or files.
+- Deliverable: Ended the day with architecture note in hand, plus a few side notes on what still needed fixing later. It was not super polished, just stable enough that I felt okay moving forward.
