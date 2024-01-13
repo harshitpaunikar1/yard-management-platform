@@ -72,3 +72,7 @@
 
 - Task summary: Got stuck mid-afternoon and had to regroup — added a sanity check assertion that would catch obvious data shape issues early.
 - Deliverable: Cleaner than this morning's version.
+## 2024-01-13 - Day 9: Operational rules
+
+- Task summary: Saturday morning — couldn't stop thinking about the edge case from Friday. Opened the notebook and patched it before I forgot.
+- Deliverable: Good enough to not be embarrassing.
