@@ -76,3 +76,7 @@
 
 - Task summary: Saturday morning — couldn't stop thinking about the edge case from Friday. Opened the notebook and patched it before I forgot.
 - Deliverable: Good enough to not be embarrassing.
+## 2024-01-15 - Day 11: Documentation check
+
+- Task summary: Closer to the end, I was mostly tightening things up instead of inventing new scope. The job for the day was to write the README with problem, scope, workflow, and usage notes so the final result looked a bit more complete. Toward the end I mostly kept trimming weird bits, fixing wording, and tying the loose parts together. This kind of project only works if the logic feels practical, so I spent time checking the flow again and again.
+- Deliverable: Ended the day with documented project in hand, plus a few side notes on what still needed fixing later. There were still a couple of loose parts, but nothing serious enough to block the next step.
