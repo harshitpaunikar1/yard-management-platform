@@ -12,3 +12,7 @@
 
 - Task summary: Added webhook support to the API design — callers can register for truck arrival events rather than polling. Cleaner integration pattern for external systems.
 - Deliverable: Webhook support added to API design for event-driven integrations.
+## 2025-10-20 - Day 3: API design
+
+- Task summary: The API versioning strategy was not defined. Added a /v1/ prefix convention and a deprecation header protocol to the spec.
+- Deliverable: API versioning strategy and deprecation protocol added to spec.
