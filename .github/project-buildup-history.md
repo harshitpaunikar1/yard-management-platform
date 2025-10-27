@@ -20,3 +20,7 @@
 
 - Task summary: Built the data model for the Yard Management Platform today. Designed the entity schema for trucks, trailers, dock doors, appointments, and yard events. The trickiest part was modeling the many-to-many relationship between trailers and dock doors over time — a trailer can be at multiple doors across its history and a door can host multiple trailers. Used a time-bounded assignment table to handle this cleanly.
 - Deliverable: Entity schema designed. Time-bounded assignment table handles trailer-door history cleanly.
+## 2025-10-27 - Day 4: Data model
+
+- Task summary: Wrote the index strategy for the assignment table — queries for current door status and queries for trailer history have different access patterns and needed separate indexes.
+- Deliverable: Index strategy for assignment table written for both query patterns.
