@@ -24,3 +24,7 @@
 
 - Task summary: Wrote the index strategy for the assignment table — queries for current door status and queries for trailer history have different access patterns and needed separate indexes.
 - Deliverable: Index strategy for assignment table written for both query patterns.
+## 2025-12-08 - Day 5: Integration testing
+
+- Task summary: Ran integration tests for the Yard Management Platform's core workflows today. Tested gate check-in through dock door assignment as an end-to-end flow, including the webhook notification to the simulated external ERP system. Found that the appointment lookup was using a non-indexed column as the join key which caused a full table scan on large appointment volumes. Added the missing index and the query time dropped from 1.2s to 12ms.
+- Deliverable: Full table scan on appointment lookup fixed with missing index. Query time from 1.2s to 12ms.
