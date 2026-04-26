@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Architecture: The Supervisor's View of Yard Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Greyscale Control Room Theme */
+    :root {
+      --bg: #111111;
+      --fg: #ffffff;
+      --panel: #1a1a1a;
+      --border-lit: #444444;
+      --border-dark: #222222;
+      --text: #dddddd;
+      --text-muted: #888888;
+      --accent: #ffffff;
+      
+      --font-body: 'Work Sans', sans-serif;
+      --font-mono: 'Chivo Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    /* Layout */
+    .dashboard-shell {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    header {
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 3rem;
+      margin-bottom: 4rem;
+    }
+
+    h1 {
+      font-family: var(--font-mono);
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--fg);
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .synopsis {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      max-width: 850px;
+    }
+
+    p { margin-bottom: 1.5rem; }
+    strong { color: var(--fg); font-weight: 600; }
+
+    /* Control-room board labels H2s */
+    h2 {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--bg);
+      background-color: var(--fg);
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      margin: 4rem 0 2rem 0;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      box-shadow: 0 0 10px rgba(255,255,255,0.2);
+    }
+
+    h3 {
+      font-family: var(--font-mono);
+      font-size: 1.15rem;
+      color: var(--fg);
+      margin: 2.5rem 0 1rem 0;
+      border-bottom: 1px solid var(--border-lit);
+      padding-bottom: 0.25rem;
+    }
+
+    /* Broad maps / Figures */
+    .atlas-figure {
+      margin: 5rem 0;
+      width: 100%;
+      border: 1px solid var(--border-lit);
+      background-color: var(--panel);
+      padding: 3rem 1.5rem;
+    }
+
+    .svg-container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    figcaption {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 1.5rem;
+      text-align: left;
+      line-height: 1.5;
+    }
+
+    /* Sectional Thresholds */
+    .status-panel {
+      border: 1px solid var(--border-lit);
+      background-color: var(--panel);
+      padding: 2rem;
+      margin: 3rem 0;
+    }
+    .status-panel .header {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border-dark);
+      padding-bottom: 0.5rem;
+    }
+    .status-panel code {
+      font-family: var(--font-mono);
+      color: var(--fg);
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-shell">
+    <header>
+      <h1>Command Architecture: The Supervisor's Yard</h1>
+      <p class="synopsis">A distribution yard operates on the edge of chaos. When eighty fifty-foot trailers are bottlenecked at the gate, dock doors are double-booked, and shunters are driving blind, software brochures describing "digital transformation" are worse than useless. A functional Yard Management System replaces ambiguity with strict entity logic, mapping the physical footprint into a deterministic control surface.</p>
+    </header>
+
+    <p>Congestion is rarely a problem of physical space; it is a problem of informational latency. When a supervisor is standing in an elevated portakabin looking out over two hundred staging slots, the danger lies not in the trailers they can see, but in the status of the trailers they cannot verify.</p>
+
+    <p>Is that reefer in slot B4 empty, loaded, or broken? Is the yard truck deadheading across the tarmac because it wasn't assigned a return move? To govern a yard, the software must strip away operational ambiguity. It does this by binding physical objects to digital state machines, enforcing a rigid lifecycle from gate arrival to gate departure, and exposing every variance immediately to the command layer.</p>
+
+    <h2>[BOARD_01 :: ENTITY DEFINITION]</h2>
+
+    <p>A yard is composed of three moving variables: Trailers, Docks, and Tractors. If the software allows a user to type "Trailer 123" into an unlinked free-text field, the system is fundamentally broken. A supervisor needs architectural entities, not text inputs.</p>
+
+    <div class="status-panel">
+      <div class="header">Core Entity State Machines</div>
+      <code>ENTITY: TRAILER</code>
+      <p>Traits: ID, Carrier, Type (Dry/Reefer), Payload Status (Empty/Loaded/Partial). <br>Lifecycle: Expected → Arrived → Staged → Docked → Released → Departed.</p>
+      
+      <code style="margin-top: 1.5rem;">ENTITY: DOCK DOOR</code>
+      <p>Traits: ID, Zone, Capability (Heated, Outbound-Only). <br>Lifecycle: Available → Assigned → Occupied → OOS (Out of Service).</p>
+
+      <code style="margin-top: 1.5rem;">ENTITY: SHUNTER TRUCK</code>
+      <p>Traits: ID, Driver, Current Task. <br>Lifecycle: Idle → Dispatched → In_Transit → Off_Shift.</p>
+    </div>
+
+    <p>When the platform rigidly enforces these states, illegal operations become impossible to execute. A supervisor cannot assign an <code>Expected</code> trailer to an <code>OOS</code> dock. The software protects the physics of the yard.</p>
+
+    <h2>[BOARD_02 :: THE YARD ATLAS]</h2>
+
+    <p>Visibility requires marrying the digital state to physical geography. The platform provides the supervisor with an interactive atlas. This is not a static map drawn by a warehouse designer; it is a live topological overlay representing real-time occupancy and active move requests.</p>
+
+    <!-- Broad Map Figure -->
+    <div class="atlas-figure">
+      <div class="svg-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="100%">
+          <rect width="1000" height="500" fill="#1a1a1a" />
+          
+          <!-- Grid Background -->
+          <path d="M 0 50 L 1000 50 M 0 100 L 1000 100 M 0 150 L 1000 150 M 0 200 L 1000 200 M 0 250 L 1000 250 M 0 300 L 1000 300 M 0 350 L 1000 350 M 0 400 L 1000 400 M 0 450 L 1000 450" fill="none" stroke="#222222" stroke-width="1" />
+          <path d="M 100 0 L 100 500 M 200 0 L 200 500 M 300 0 L 300 500 M 400 0 L 400 500 M 500 0 L 500 500 M 600 0 L 600 500 M 700 0 L 700 500 M 800 0 L 800 500 M 900 0 L 900 500" fill="none" stroke="#222222" stroke-width="1" />
+
+          <!-- Perimeter -->
+          <rect x="50" y="50" width="900" height="400" fill="none" stroke="#444444" stroke-width="2" />
+          
+          <!-- GATE ENTRY -->
+          <rect x="50" y="200" width="40" height="100" fill="#ffffff" />
+          <text x="35" y="255" font-family="'Chivo Mono', monospace" font-size="12" font-weight="700" fill="#ffffff" transform="rotate(-90 35 255)">GATE_IN</text>
+          
+          <!-- STAGING ZONE A -->
+          <rect x="150" y="100" width="300" height="120" fill="none" stroke="#666666" stroke-width="2" stroke-dasharray="4 4" />
+          <text x="300" y="90" font-family="'Chivo Mono', monospace" font-size="10" text-anchor="middle" fill="#888888">STAGING ZONE ALPHA (INBOUND)</text>
+          <!-- Slots in Zone A -->
+          <rect x="170" y="120" width="30" height="80" fill="#ffffff" /> <!-- Trailer 1 (Occupied) -->
+          <rect x="220" y="120" width="30" height="80" fill="#333333" /> <!-- Slot Empty -->
+          <rect x="270" y="120" width="30" height="80" fill="#ffffff" /> <!-- Trailer 2 -->
+          <rect x="320" y="120" width="30" height="80" fill="#ffffff" /> <!-- Trailer 3 -->
+          <rect x="370" y="120" width="30" height="80" fill="#333333" /> <!-- Slot Empty -->
+
+          <!-- WAREHOUSE & DOCKS -->
+          <rect x="600" y="100" width="300" height="300" fill="#111111" stroke="#ffffff" stroke-width="2" />
+          <text x="750" y="255" font-family="'Chivo Mono', monospace" font-size="16" font-weight="700" text-anchor="middle" fill="#ffffff">MAIN WAREHOUSE</text>
+          
+          <!-- Dock Doors -->
+          <rect x="580" y="120" width="20" height="30" fill="#ffffff" /> <text x="560" y="140" fill="#888888" font-size="8" font-family="'Chivo Mono'">D1</text>
+          <rect x="580" y="170" width="20" height="30" fill="#333333" /> <text x="560" y="190" fill="#888888" font-size="8" font-family="'Chivo Mono'">D2</text>
+          <rect x="580" y="220" width="20" height="30" fill="#ffffff" /> <text x="560" y="240" fill="#888888" font-size="8" font-family="'Chivo Mono'">D3</text>
+          <rect x="580" y="270" width="20" height="30" fill="#ffffff" /> <text x="560" y="290" fill="#888888" font-size="8" font-family="'Chivo Mono'">D4</text>
+          
+          <!-- MOVE REQUEST PATH (Shunter) -->
+          <path d="M 285 200 L 285 285 L 535 285 L 535 235 L 580 235" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)" />
+          <circle cx="360" cy="285" r="8" fill="#ffffff" />
+          <text x="360" y="270" font-family="'Chivo Mono', monospace" font-size="10" text-anchor="middle" fill="#ffffff">SHUNTER_01</text>
+          
+          <rect x="360" y="300" width="120" height="30" fill="#222222" stroke="#ffffff" stroke-width="1" />
+          <text x="420" y="320" font-family="'Chivo Mono', monospace" font-size="9" text-anchor="middle" fill="#ffffff">TASK: MOVE [A3] -> [D3]</text>
+
+          <defs>
+            <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <polygon points="0 0, 6 3, 0 6" fill="#ffffff" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+      <figcaption>Fig 1. — The Topographical Overlay. The supervisor commands the flow from this view. Arrivals enter Stage Alpha and await dispatch. The central path denotes an active Move Request: the platform algorithm has allocated Shunter_01 to pull a verified Trailer from Slot A3 and back it into Dock D3. The system calculates vector and travel time to alert the warehouse receivers automatically.</figcaption>
+    </div>
+
+    <h2>[BOARD_03 :: DISPATCH ALGORITHMS]</h2>
+
+    <p>A manual yard relies on radios and shouting. A supervisor keys a radio and asks, "Who is free to move trailer T-44 to Door 5?" This is a catastrophic waste of latency. The platform shifts this to algorithmic dispatch.</p>
+
+    <p>When the warehouse management system (WMS) declares a dock empty, the yard platform instantly flags the move request. In the shunter's cab, a ruggedized tablet pings. The algorithm dispatches the task to the shunter closest to the staging slot, chaining moves together. If a shunter is dropping an empty trailer in Zone C, the algorithm will assign an inbound fetch from Zone C to minimize deadheading (driving without a load).</p>
+
+    <div class="status-panel">
+      <div class="header">Metric Audit: Dwell Time</div>
+      <p>By capturing the exact timestamp of every state transition—Gate_In, Move_Accepted, Dock_{Locked}, Move_Completed—the platform calculates <strong>Dwell Time</strong> perfectly. The supervisor is alerted if a carrier trailer exceeds its 48-hour free-time window, preventing thousands of dollars in weekly demurrage fines.</p>
+    </div>
+
+    <h2>[BOARD_04 :: THE INTEGRATION HUB]</h2>
+
+    <p>No yard exists in isolation. If the Yard Management System does not talk to the Warehouse Management System (WMS) and the Transportation Management System (TMS), it is merely an expensive map.</p>
+
+    <p>The platform must act as the integration layer. When a truck arrives at the gate, the gateway API queries the TMS to verify the appointment block. When a trailer hits the dock, a webhook is fired into the WMS, altering the labor forecast to ensure forklift drivers are dispatched to Door 3. When the WMS seals the trailer, the yard platform is notified to generate the outbound move task, instructing the shunter to pull it to the outbound lot.</p>
+
+    <p>This is the actual product: the complete synchronization of physical assets with data payloads. By managing the space perfectly, the platform transforms the yard from a sprawling liability into a high-throughput, tightly governed node in the supply chain.</p>
+  </div>
+
+</body>
+</html>
